@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.goods.mapper.GoodsMapper">
+  <resultMap id="BaseResultMap" type="com.mall.model.dto.Goods">
+      <result column="goods_id" property="goodsId" jdbcType="INTEGER" />
+      <result column="cat_id" property="catId" jdbcType="INTEGER" />
+      <result column="num" property="num" jdbcType="VARCHAR" />
+      <result column="name"  jdbcType="VARCHAR" />
+      <result column="brand_id"  jdbcType="INTEGER" />
+      <result column="desc"  jdbcType="VARCHAR" />
+      <result column="is_on_sale"  jdbcType="INTEGER" />
+      <result column="on_sale_time"  jdbcType="TIMESTAMP" />
+      <result column="market_price"  jdbcType="DECIMAL" />
+      <result column="sale_price"  jdbcType="DECIMAL" />
+      <result column="comment_count"  jdbcType="INTEGER" />
+      <result column="sale_count"  jdbcType="INTEGER" />
+      <result column="stock"  jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="com.mall.model.dto.Goods">
+    insert into tb_goods (id, cat_id, num, 
+      name, brand_id, desc, 
+      is_on_sale, on_sale_time, market_price, 
+      sale_price, comment_count, sale_count, 
+      stock)
+    values (#{id,jdbcType=INTEGER}, #{catId,jdbcType=INTEGER}, #{num,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{brandId,jdbcType=INTEGER}, #{desc,jdbcType=VARCHAR}, 
+      #{isOnSale,jdbcType=BIT}, #{onSaleTime,jdbcType=TIMESTAMP}, #{marketPrice,jdbcType=DECIMAL}, 
+      #{salePrice,jdbcType=DECIMAL}, #{commentCount,jdbcType=INTEGER}, #{saleCount,jdbcType=INTEGER}, 
+      #{stock,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mall.model.dto.Goods">
+    insert into tb_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="catId != null">
+        cat_id,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="brandId != null">
+        brand_id,
+      </if>
+      <if test="desc != null">
+        desc,
+      </if>
+      <if test="isOnSale != null">
+        is_on_sale,
+      </if>
+      <if test="onSaleTime != null">
+        on_sale_time,
+      </if>
+      <if test="marketPrice != null">
+        market_price,
+      </if>
+      <if test="salePrice != null">
+        sale_price,
+      </if>
+      <if test="commentCount != null">
+        comment_count,
+      </if>
+      <if test="saleCount != null">
+        sale_count,
+      </if>
+      <if test="stock != null">
+        stock,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="catId != null">
+        #{catId,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null">
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="isOnSale != null">
+        #{isOnSale,jdbcType=BIT},
+      </if>
+      <if test="onSaleTime != null">
+        #{onSaleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="marketPrice != null">
+        #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="salePrice != null">
+        #{salePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="commentCount != null">
+        #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="saleCount != null">
+        #{saleCount,jdbcType=INTEGER},
+      </if>
+      <if test="stock != null">
+        #{stock,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="findById" resultMap="BaseResultMap">
+    select * from tb_goods where id = #{id}
+  </select>
+</mapper>

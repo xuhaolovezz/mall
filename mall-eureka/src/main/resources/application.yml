@@ -1,0 +1,16 @@
+server:
+  port: 8761
+  tomcat:
+    max-threads: 1000
+    accept-count: 1000
+    max-connections: 2000
+    uri-encoding: UTF-8
+eureka:
+  client:
+    fetch-registry: false     # 关闭发现服务
+    register-with-eureka: false  # 禁用服务端注册
+spring:
+  security:
+    user:
+      name: eureka # 添加Spring security认证
+      password: eureka
