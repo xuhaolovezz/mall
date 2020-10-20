@@ -17,8 +17,13 @@ public class UserAddressController {
     private UserAddressServiceImpl userAddressService;
 
     @GetMapping("/findByUserId")
-    public MallResult<List<UserAddress>> findListByUserId(String userId) {
+    public MallResult<List<UserAddress>> findListByUserId(Integer userId) {
         return MallResult.success(userAddressService.findListByUserId(userId));
+    }
+
+    @GetMapping("/{id}")
+    public MallResult<UserAddress> findById(@PathVariable Integer id) {
+        return MallResult.success(userAddressService.findById(id));
     }
 
     @PostMapping("/create")

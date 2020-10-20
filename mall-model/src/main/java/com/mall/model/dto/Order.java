@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @ToString
 @Data
 public class Order {
-    private Integer id;
+    private Integer orderId;
 
     private Integer userId;
 

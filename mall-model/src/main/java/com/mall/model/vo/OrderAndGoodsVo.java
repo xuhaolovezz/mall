@@ -1,6 +1,5 @@
 package com.mall.model.vo;
 
-import com.mall.model.dto.Goods;
 import lombok.Data;
 
 import java.util.List;
@@ -9,9 +8,15 @@ import java.util.List;
 public class OrderAndGoodsVo {
 
     // 此次订单要购买的商品
-    private List<Goods> goodsList;
+    private List<Integer> goodsList;
 
     // 用户ID
     private Integer userId;
+
+    // 用户备注
+    private String userNote;
+
+    // 选择的收货地址ID
+    private Integer addressId;
 
 }

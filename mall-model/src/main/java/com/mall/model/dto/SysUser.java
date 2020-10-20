@@ -8,7 +8,7 @@ import java.util.Date;
 @ToString
 @Data
 public class SysUser {
-    private Integer id;
+    private Integer userId;
 
     private String username;
 

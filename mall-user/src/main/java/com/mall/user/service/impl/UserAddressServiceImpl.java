@@ -14,7 +14,7 @@ public class UserAddressServiceImpl {
     @Autowired
     private UserAddressMapper userAddressMapper;
 
-    public List<UserAddress> findListByUserId(String userId) {
+    public List<UserAddress> findListByUserId(Integer userId) {
         return userAddressMapper.findListByUserId(userId);
     }
 
@@ -33,4 +33,7 @@ public class UserAddressServiceImpl {
     }
 
 
+    public UserAddress findById(Integer id) {
+        return userAddressMapper.findById(id);
+    }
 }

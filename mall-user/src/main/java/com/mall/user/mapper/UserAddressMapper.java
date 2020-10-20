@@ -10,7 +10,9 @@ public interface UserAddressMapper {
 
     int insertSelective(UserAddress record);
 
-    List<UserAddress> findListByUserId(@Param("userId") String userId);
+    UserAddress findById(@Param("addressId") Integer addressId);
+
+    List<UserAddress> findListByUserId(@Param("userId") Integer userId);
 
     void clearDefaultAddress(@Param("userId") Integer userId);
 

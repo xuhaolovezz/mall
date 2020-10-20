@@ -11,6 +11,8 @@
         <option value="$PROJECT_DIR$/mall-user/pom.xml" />
         <option value="$PROJECT_DIR$/mall-order/pom.xml" />
         <option value="$PROJECT_DIR$/mall-goods/pom.xml" />
+        <option value="$PROJECT_DIR$/mall-api/pom.xml" />
+        <option value="$PROJECT_DIR$/baidu-id-starter/pom.xml" />
       </list>
     </option>
   </component>

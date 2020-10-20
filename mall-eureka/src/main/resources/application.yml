@@ -9,6 +9,9 @@ eureka:
   client:
     fetch-registry: false     # 关闭发现服务
     register-with-eureka: false  # 禁用服务端注册
+  server:
+    enable-self-preservation: false # 关闭保护机制，服务下线后会被踢出而不是保留
+    eviction-interval-timer-in-ms: 10000 # 清理下线服务的间隔
 spring:
   security:
     user:

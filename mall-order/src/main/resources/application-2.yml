@@ -1,0 +1,5 @@
+server:
+  port: 8882
+eureka:
+  instance:
+    instance-id: mall-order-service-2

@@ -97,7 +97,11 @@
       </if>
     </trim>
   </insert>
-  
+
+  <select id="findById" resultMap="BaseResultMap">
+    select * from tb_user_address where address_id = #{addressId}
+  </select>
+
   <select id="findListByUserId" resultMap="BaseResultMap">
     select * from tb_user_address ua
     where ua.user_id = #{userId}

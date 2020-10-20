@@ -5,24 +5,24 @@
       <result column="goods_id" property="goodsId" jdbcType="INTEGER" />
       <result column="cat_id" property="catId" jdbcType="INTEGER" />
       <result column="num" property="num" jdbcType="VARCHAR" />
-      <result column="name"  jdbcType="VARCHAR" />
-      <result column="brand_id"  jdbcType="INTEGER" />
-      <result column="desc"  jdbcType="VARCHAR" />
-      <result column="is_on_sale"  jdbcType="INTEGER" />
-      <result column="on_sale_time"  jdbcType="TIMESTAMP" />
-      <result column="market_price"  jdbcType="DECIMAL" />
-      <result column="sale_price"  jdbcType="DECIMAL" />
-      <result column="comment_count"  jdbcType="INTEGER" />
-      <result column="sale_count"  jdbcType="INTEGER" />
-      <result column="stock"  jdbcType="INTEGER" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+      <result column="desc" property="desc" jdbcType="VARCHAR" />
+      <result column="is_on_sale" property="isOnSale" jdbcType="INTEGER" />
+      <result column="on_sale_time" property="onSaleTime" jdbcType="TIMESTAMP" />
+      <result column="market_price" property="marketPrice" jdbcType="DECIMAL" />
+      <result column="sale_price" property="salePrice" jdbcType="DECIMAL" />
+      <result column="comment_count" property="commentCount" jdbcType="INTEGER" />
+      <result column="sale_count" property="saleCount" jdbcType="INTEGER" />
+      <result column="stock" property="stock" jdbcType="INTEGER" />
   </resultMap>
-  <insert id="insert" parameterType="com.mall.model.dto.Goods">
-    insert into tb_goods (id, cat_id, num, 
+  <insert id="insert" parameterType="com.mall.model.dto.Goods" useGeneratedKeys="true" keyProperty="goodsId">
+    insert into tb_goods (cat_id, num,
       name, brand_id, desc, 
       is_on_sale, on_sale_time, market_price, 
       sale_price, comment_count, sale_count, 
       stock)
-    values (#{id,jdbcType=INTEGER}, #{catId,jdbcType=INTEGER}, #{num,jdbcType=VARCHAR}, 
+    values (#{catId,jdbcType=INTEGER}, #{num,jdbcType=VARCHAR},
       #{name,jdbcType=VARCHAR}, #{brandId,jdbcType=INTEGER}, #{desc,jdbcType=VARCHAR}, 
       #{isOnSale,jdbcType=BIT}, #{onSaleTime,jdbcType=TIMESTAMP}, #{marketPrice,jdbcType=DECIMAL}, 
       #{salePrice,jdbcType=DECIMAL}, #{commentCount,jdbcType=INTEGER}, #{saleCount,jdbcType=INTEGER}, 

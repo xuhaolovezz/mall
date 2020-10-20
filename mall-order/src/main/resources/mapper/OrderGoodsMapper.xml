@@ -17,13 +17,14 @@
       <result column="sku"  jdbcType="VARCHAR" />
       <result column="original_img"  jdbcType="VARCHAR" />
   </resultMap>
-  <insert id="insert" parameterType="com.mall.model.dto.OrderGoods">
-    insert into tb_order_goods (rec_id, order_id, goods_id, 
+  <insert id="insert" parameterType="com.mall.model.dto.OrderGoods" useGeneratedKeys="true"
+    keyProperty="recId">
+    insert into tb_order_goods (order_id, goods_id,
       goods_name, goods_sn, goods_num, 
       market_price, goods_price, bar_code, 
       is_comment, is_send, delivery_id, 
       sku, original_img)
-    values (#{recId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, 
+    values (#{orderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER},
       #{goodsName,jdbcType=VARCHAR}, #{goodsSn,jdbcType=VARCHAR}, #{goodsNum,jdbcType=SMALLINT}, 
       #{marketPrice,jdbcType=DECIMAL}, #{goodsPrice,jdbcType=DECIMAL}, #{barCode,jdbcType=VARCHAR}, 
       #{isComment,jdbcType=BIT}, #{isSend,jdbcType=BIT}, #{deliveryId,jdbcType=INTEGER}, 
