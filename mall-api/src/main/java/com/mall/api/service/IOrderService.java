@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface IOrderService {
 
     // 加了RequestParam即为GET请求，加RequestBody为post请求
-    @RequestMapping("/findByUserId")
+    @RequestMapping("/order/findByUserId")
     MallResult<PageResult<Order>> findByUserId(@RequestParam("userId") Integer userId,
                                                @RequestParam("page") int page,
                                                @RequestParam("pageSize") int pageSize);

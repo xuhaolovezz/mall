@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface IUserAddressService {
 
-    @GetMapping("/findByUserId")
+    @GetMapping("/user_address/findByUserId")
     MallResult<List<UserAddress>> findByUserId(String userId);
 
-    @GetMapping("/{id}")
+    @GetMapping("/user_address/{id}")
     MallResult<UserAddress> findById(@PathVariable Integer id);
 
 }

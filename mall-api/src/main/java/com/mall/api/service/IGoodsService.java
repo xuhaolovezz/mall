@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 public interface IGoodsService {
 
-    @GetMapping("/{id}")
+    @GetMapping("/goods/{id}")
     MallResult<Goods> findById(@PathVariable Integer id);
 
 }

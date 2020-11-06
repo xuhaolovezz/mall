@@ -6,6 +6,7 @@ import com.mall.common.enums.OrderStatus;
 import com.mall.common.enums.ShippingStatus;
 import com.mall.common.exception.BusinessException;
 import com.mall.common.vo.MallResult;
+import com.mall.common.vo.Oauth2User;
 import com.mall.common.vo.PageResult;
 import com.mall.model.dto.Goods;
 import com.mall.model.dto.Order;
@@ -19,11 +20,14 @@ import com.mall.order.mapper.OrderGoodsMapper;
 import com.mall.order.mapper.OrderMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -46,11 +50,11 @@ public class OrderServiceImpl {
     private DefaultUidGenerator defaultUidGenerator;*/
 
     public PageResult<Order> findListByUserId(UserFindOrderVo vo) {
-        try {
-            Thread.sleep(3100);
+        /*try {
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         Page<Object> page = PageHelper.startPage(vo.getPage(), vo.getPageSize());
 
         List<Order> list = orderMapper.findListByUserId(vo.getUserId());
@@ -110,7 +114,7 @@ public class OrderServiceImpl {
         //order.setOrderId(defaultUidGenerator.getUID());
         order.setStatus(OrderStatus.CONFIRMED.getCode());
         order.setShippingStatus(ShippingStatus.UN_SHIPPED.getCode());
-        order.setAddTime(System.currentTimeMillis());
+        order.setAddTime(new Date());
         order.setOrderAmount(goodsPrice);
         order.setShippingPrice(shippingPrice);
         order.setTotalAmount(goodsPrice);
@@ -138,5 +142,16 @@ public class OrderServiceImpl {
         order.setAddress(userAddress.getAddress());
         order.setConsignee(userAddress.getConsignee());
         order.setZipcode(userAddress.getZipcode());
+    }
+
+    public PageResult<Order> findByCurrentUser() {
+        OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+        Oauth2User oauth2User = (Oauth2User) authentication.getPrincipal();
+
+        UserFindOrderVo vo = new UserFindOrderVo();
+        vo.setUserId(oauth2User.getUserId());
+        vo.setPage(1);
+        vo.setPageSize(10);
+        return findListByUserId(vo);
     }
 }

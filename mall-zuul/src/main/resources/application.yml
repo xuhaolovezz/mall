@@ -1,0 +1,77 @@
+eureka:
+  client: # 客户端进行Eureka注册的配置
+    service-url:
+      defaultZone: http://eureka:eureka@49.233.48.181:8761/eureka # 注册地址
+  instance:
+    instance-id: mall-zuul # eureka显示的路径名称
+    prefer-ip-address: true # 注册客户端时，使用ip地址注册而不是hostname
+spring:
+  application:
+    name: mall-zuul
+  cloud:
+    sentinel:
+      transport:
+        port: 8719  # 启动一个httpServer与sentinel dashboard进行交互
+        dashboard: localhost:9000
+  redis:
+    host: 49.233.48.181
+    port: 6379
+    password:
+    database: 0
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+auth:
+  server-uri: http://localhost:8111
+security:
+  oauth2:
+    client:
+      client-id: user-client
+      client-secret: user-secret-8888
+      user-authorization-uri: ${auth.server-uri}/oauth/authorize
+      access-token-uri: ${auth.server-uri}/oauth/token
+      pre-established-redirect-uri: http://localhost:7777/%23/login
+    authorization:
+      check-token-access: ${auth.server-uri}/oauth/check_token
+    resource:
+      id: user-client
+      user-info-uri: ${auth.server-uri}/user/me
+#    resource:
+#      jwt:
+#        key-uri: http://localhost:8111/oauth/token_key
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+server:
+  port: 8000
+zuul:
+  routes:
+    mall-user-service: /api-user/**
+    mall-order-service: /api-order/**
+    mall-goods-service: /api-goods/**
+  ignored-services: "*"
+  retryable: true
+  sensitive-headers:
+  ribbonIsolationStrategy: thread
+ribbon:
+  ReadTimeout: 3000
+  ConnectTimeout: 0
+  MaxAutoRetries: 1 #同一台实例最大重试次数,不包括首次调用
+  MaxAutoRetriesNextServer: 0 #重试负载均衡其他的实例最大重试次数,不包括首次调用
+  OkToRetryOnAllOperations: true  #是否所有操作都重试
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          thread:
+            timeoutInMilliseconds: 100000
+logging:
+  level:
+    org.springframework: debug

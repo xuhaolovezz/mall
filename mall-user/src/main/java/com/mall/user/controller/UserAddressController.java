@@ -1,6 +1,5 @@
 package com.mall.user.controller;
 
-import com.mall.common.CommonConst;
 import com.mall.common.vo.MallResult;
 import com.mall.model.dto.UserAddress;
 import com.mall.user.service.impl.UserAddressServiceImpl;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(CommonConst.URL_PREFIX + "/user_address")
+@RequestMapping("/user_address")
 public class UserAddressController {
 
     @Autowired

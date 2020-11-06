@@ -1,6 +1,5 @@
 package com.mall.goods.controller;
 
-import com.mall.common.CommonConst;
 import com.mall.common.vo.MallResult;
 import com.mall.goods.service.impl.GoodsServiceImpl;
 import com.mall.model.dto.Goods;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(CommonConst.URL_PREFIX + "/goods")
+@RequestMapping("/goods")
 public class GoodsController {
 
     @Autowired

@@ -1,6 +1,5 @@
 package com.mall.order.controller;
 
-import com.mall.common.CommonConst;
 import com.mall.common.vo.MallResult;
 import com.mall.common.vo.PageResult;
 import com.mall.model.dto.Order;
@@ -11,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(CommonConst.URL_PREFIX + "/order")
+@RequestMapping("/order")
 public class OrderController {
 
     @Autowired
@@ -28,4 +27,9 @@ public class OrderController {
         return MallResult.success(orderService.findListByUserId(vo));
     }
 
+
+    @GetMapping("/findByCurrentUser")
+    public MallResult<PageResult<Order>> findByCurrentUser() {
+        return MallResult.success(orderService.findByCurrentUser());
+    }
 }
