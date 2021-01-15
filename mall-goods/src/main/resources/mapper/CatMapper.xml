@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.goods.mapper.CatMapper">
+  <resultMap id="BaseResultMap" type="com.mall.model.dto.Cat">
+      <result column="cat_id" property="catId" jdbcType="INTEGER" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="com.mall.model.dto.Cat" useGeneratedKeys="true"
+          keyProperty="catId">
+    insert into tb_cat (name,parent_id)
+    values (#{name},#{parentId})
+  </insert>
+
+  <select id="findById" resultMap="BaseResultMap">
+    select * from tb_cat where cat_id = #{id}
+  </select>
+</mapper>

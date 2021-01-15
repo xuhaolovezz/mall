@@ -7,4 +7,5 @@ public interface SysUserMapper {
 
     Oauth2User selectByUsername(@Param("username")String username);
 
+    int insert(Oauth2User user);
 }

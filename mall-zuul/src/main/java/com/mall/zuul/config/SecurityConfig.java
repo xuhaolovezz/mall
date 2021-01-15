@@ -1,4 +1,4 @@
-package com.mall.zuul.oauth2.config;
+package com.mall.zuul.config;
 
 import com.mall.common.annotation.EnableMallSecurity;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +13,11 @@ public class SecurityConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        // TODO 后期路径全部从数据库取
         http.authorizeRequests()
-                .antMatchers("/oauth_login").permitAll()
-                .antMatchers("/api-goods/**").permitAll();
+                .antMatchers("/api-auth/open/**").permitAll()
+                .antMatchers("/api/order/**").permitAll()
+                .antMatchers("/api/user/**").permitAll()
+                .antMatchers("/api/goods/**").permitAll();
     }
 }

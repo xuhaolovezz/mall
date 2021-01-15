@@ -34,4 +34,10 @@ public class Goods {
     private Integer saleCount;
 
     private Integer stock;
+
+    private String coverImg;
+
+    private String descImg;
+
+    private String simpleImg;
 }

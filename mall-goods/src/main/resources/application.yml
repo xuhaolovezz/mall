@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8300
 eureka:
   client: # 客户端进行Eureka注册的配置
     service-url:
@@ -13,7 +13,7 @@ spring:
     name: mall-goods-service
   datasource:
     druid:
-      url: jdbc:mysql://49.233.48.181:3306/mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+      url: jdbc:mysql://49.233.48.181:13306/mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: root
       password: 123456

@@ -21,12 +21,6 @@ public class UserController {
         return MallResult.success(userService.findById(id));
     }
 
-    @PostMapping("/register")
-    public MallResult<SysUser> register(@RequestBody SysUser sysUser) {
-        userService.create(sysUser);
-        return MallResult.success();
-    }
-
     @GetMapping("/findOrderList")
     public MallResult<PageResult<Order>> findOrderList(UserFindOrderVo userVo) {
         PageResult<Order> list = userService.findOrderList(userVo);

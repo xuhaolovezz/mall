@@ -15,18 +15,21 @@
       <result column="comment_count" property="commentCount" jdbcType="INTEGER" />
       <result column="sale_count" property="saleCount" jdbcType="INTEGER" />
       <result column="stock" property="stock" jdbcType="INTEGER" />
+      <result column="cover_img" property="coverImg" jdbcType="VARCHAR" />
+      <result column="simple_img" property="simpleImg" jdbcType="VARCHAR" />
+      <result column="desc_img" property="descImg" jdbcType="VARCHAR" />
   </resultMap>
   <insert id="insert" parameterType="com.mall.model.dto.Goods" useGeneratedKeys="true" keyProperty="goodsId">
     insert into tb_goods (cat_id, num,
       name, brand_id, desc, 
       is_on_sale, on_sale_time, market_price, 
       sale_price, comment_count, sale_count, 
-      stock)
+      stock,cover_img)
     values (#{catId,jdbcType=INTEGER}, #{num,jdbcType=VARCHAR},
       #{name,jdbcType=VARCHAR}, #{brandId,jdbcType=INTEGER}, #{desc,jdbcType=VARCHAR}, 
       #{isOnSale,jdbcType=BIT}, #{onSaleTime,jdbcType=TIMESTAMP}, #{marketPrice,jdbcType=DECIMAL}, 
       #{salePrice,jdbcType=DECIMAL}, #{commentCount,jdbcType=INTEGER}, #{saleCount,jdbcType=INTEGER}, 
-      #{stock,jdbcType=INTEGER})
+      #{stock,jdbcType=INTEGER},#{coverImg})
   </insert>
   <insert id="insertSelective" parameterType="com.mall.model.dto.Goods">
     insert into tb_goods
@@ -70,6 +73,15 @@
       <if test="stock != null">
         stock,
       </if>
+      <if test="coverImg != null">
+        coverImg,
+      </if>
+      <if test="simpleImg != null">
+        simpleImg,
+      </if>
+      <if test="descImg != null">
+        descImg,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -108,13 +120,34 @@
       <if test="saleCount != null">
         #{saleCount,jdbcType=INTEGER},
       </if>
-      <if test="stock != null">
-        #{stock,jdbcType=INTEGER},
+      <if test="coverImg != null">
+        #{coverImg,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleImg != null">
+        #{simpleImg,jdbcType=VARCHAR},
+      </if>
+      <if test="descImg != null">
+        #{descImg,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
 
   <select id="findById" resultMap="BaseResultMap">
-    select * from tb_goods where id = #{id}
+    select * from tb_goods where goods_id = #{id}
   </select>
+
+  <select id="findList" resultMap="BaseResultMap" parameterType="com.mall.model.vo.GoodsFindVo">
+    select * from tb_goods
+    <where>
+      <if test="goodsName != null and goodsName != ''">
+        and `name` like concat('%',#{goodsName},'%')
+      </if>
+    </where>
+  </select>
+
+  <update id="updateStock">
+    update tb_goods
+    set stock = stock - ${count}
+    where goods_id = #{goodsId} and stock >= #{count}
+  </update>
 </mapper>

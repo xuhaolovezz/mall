@@ -1,5 +1,5 @@
 server:
-  port: 8881
+  port: 8200
 eureka:
   instance:
     instance-id: mall-order-service-1

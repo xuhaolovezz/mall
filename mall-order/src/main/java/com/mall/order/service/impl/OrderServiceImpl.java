@@ -12,6 +12,8 @@ import com.mall.model.dto.Goods;
 import com.mall.model.dto.Order;
 import com.mall.model.dto.OrderGoods;
 import com.mall.model.dto.UserAddress;
+import com.mall.model.vo.AddOrderVo;
+import com.mall.model.vo.GoodsVo;
 import com.mall.model.vo.OrderAndGoodsVo;
 import com.mall.model.vo.UserFindOrderVo;
 import com.mall.order.feign.IGoodsServiceClient;
@@ -62,7 +64,7 @@ public class OrderServiceImpl {
     }
 
     @Transactional
-    public void create(OrderAndGoodsVo orderAndGoodsVo) {
+    public void create(AddOrderVo orderAndGoodsVo) {
 
         Integer userId = orderAndGoodsVo.getUserId();
 
@@ -83,7 +85,7 @@ public class OrderServiceImpl {
         List<OrderGoods> orderGoodsList = new ArrayList<>(list.size());
         for (Integer goodsId : list) {
 
-            MallResult<Goods> result = goodsServiceClient.findById(goodsId);
+            MallResult<GoodsVo> result = goodsServiceClient.findById(goodsId);
             if (!result.isSuccess()) {
                 log.error("查询商品信息失败,商品ID为：{},异常消息：{}",goodsId,result.getMsg());
                 throw new BusinessException("未查询到商品信息");
@@ -102,12 +104,19 @@ public class OrderServiceImpl {
             orderGoods.setMarketPrice(goods.getMarketPrice());
             orderGoods.setGoodsPrice(goods.getSalePrice());
             orderGoods.setGoodsNum((short)1);
+            orderGoods.setOriginalImg(goods.getCoverImg());
 
 
             // 累加商品金额和实际金额
             goodsPrice = goodsPrice.add(goods.getMarketPrice());
 
             orderGoodsList.add(orderGoods);
+
+            // 商品库存-1
+            MallResult<Void> mallResult = goodsServiceClient.reduceGoodsStock(goodsId, 1);
+            if (!mallResult.isSuccess()) {
+                throw new RuntimeException("扣减库存失败");
+            }
         }
 
         // TODO
@@ -129,7 +138,7 @@ public class OrderServiceImpl {
         log.debug("插入订单数据======》");
     }
 
-    private void setOrderAddress(OrderAndGoodsVo orderAndGoodsVo, Order order) {
+    private void setOrderAddress(AddOrderVo orderAndGoodsVo, Order order) {
         // 跟据addressId查询收货地址信息
         Integer addressId = orderAndGoodsVo.getAddressId();
         MallResult<UserAddress> result = userAddressServiceClient.findById(addressId);
@@ -144,7 +153,7 @@ public class OrderServiceImpl {
         order.setZipcode(userAddress.getZipcode());
     }
 
-    public PageResult<Order> findByCurrentUser() {
+    public PageResult<OrderAndGoodsVo> findByCurrentUser() {
         OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
         Oauth2User oauth2User = (Oauth2User) authentication.getPrincipal();
 
@@ -152,6 +161,22 @@ public class OrderServiceImpl {
         vo.setUserId(oauth2User.getUserId());
         vo.setPage(1);
         vo.setPageSize(10);
-        return findListByUserId(vo);
+        PageResult<Order> result = findListByUserId(vo);
+        List<Order> data = result.getData();
+
+        List<OrderAndGoodsVo> list = new ArrayList<>(data.size());
+        for (Order order : data) {
+            List<OrderGoods> orderGoodsList = findGoodsByOrderId(order.getOrderId());
+            OrderAndGoodsVo orderAndGoodsVo = new OrderAndGoodsVo();
+            orderAndGoodsVo.setOrder(order);
+            orderAndGoodsVo.setGoodsList(orderGoodsList);
+            list.add(orderAndGoodsVo);
+        }
+
+        return new PageResult<>(result.getPageNum(),result.getPageSize(),result.getTotal(),list);
+    }
+
+    public List<OrderGoods> findGoodsByOrderId(Integer orderId) {
+        return orderGoodsMapper.findByOrderId(orderId);
     }
 }

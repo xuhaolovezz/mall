@@ -3,19 +3,26 @@
 <mapper namespace="com.mall.authserver.mapper.SysUserMapper">
 
   <resultMap id="BaseResultMap" type="com.mall.common.vo.Oauth2User">
-    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="BIT" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
   </resultMap>
   <select id="selectByUsername" resultMap="BaseResultMap">
     select * from sys_user su
     where su.username = #{username}
   </select>
+
+  <insert id="insert" parameterType="com.mall.common.vo.Oauth2User" useGeneratedKeys="true" keyProperty="userId">
+    insert into sys_user (username, password,
+                          name, phone, status, create_time,
+                          create_user, update_time, update_user
+    )
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+            #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP},
+            #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}
+           )
+  </insert>
 </mapper>

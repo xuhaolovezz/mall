@@ -9,6 +9,7 @@ import java.util.Set;
 
 @Data
 @Builder
+//@NoArgsConstructor
 public class Oauth2User implements UserDetails {
 
     private Integer userId;
@@ -22,6 +23,7 @@ public class Oauth2User implements UserDetails {
     private String phone;
 
     private Integer status;
+
 
     Set<SimpleGrantedAuthority> authorities;
 

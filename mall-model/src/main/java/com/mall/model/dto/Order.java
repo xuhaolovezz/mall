@@ -1,5 +1,6 @@
 package com.mall.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.ToString;
 
@@ -41,8 +42,10 @@ public class Order {
 
     private BigDecimal totalAmount;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date addTime;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date payTime;
 
     private String userNote;

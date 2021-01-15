@@ -7,7 +7,7 @@ eureka:
     prefer-ip-address: true # 注册客户端时，使用ip地址注册而不是hostname
 spring:
   application:
-    name: mall-zuul
+    name: mall-zuul-service
   cloud:
     sentinel:
       transport:
@@ -24,17 +24,17 @@ spring:
         max-idle: 8
         min-idle: 0
 auth:
-  server-uri: http://localhost:8111
+  server-uri: http://login.mall.com:9000
 security:
   oauth2:
-    client:
-      client-id: user-client
-      client-secret: user-secret-8888
-      user-authorization-uri: ${auth.server-uri}/oauth/authorize
-      access-token-uri: ${auth.server-uri}/oauth/token
-      pre-established-redirect-uri: http://localhost:7777/%23/login
-    authorization:
-      check-token-access: ${auth.server-uri}/oauth/check_token
+#    client:
+#      client-id: user-client
+#      client-secret: user-secret-8888
+#      user-authorization-uri: ${auth.server-uri}/oauth/authorize
+#      access-token-uri: ${auth.server-uri}/oauth/token
+#      pre-established-redirect-uri: http://home.mall.com:7777/%23/login
+#    authorization:
+#      check-token-access: ${auth.server-uri}/oauth/check_token
     resource:
       id: user-client
       user-info-uri: ${auth.server-uri}/user/me
@@ -47,19 +47,20 @@ management:
       exposure:
         include: '*'
 server:
-  port: 8000
+  port: 9100
 zuul:
   routes:
-    mall-user-service: /api-user/**
-    mall-order-service: /api-order/**
-    mall-goods-service: /api-goods/**
+    mall-user-service: /api/user/**
+    mall-order-service: /api/order/**
+    mall-goods-service: /api/goods/**
+    mall-auth-service: /api/auth/**
   ignored-services: "*"
   retryable: true
   sensitive-headers:
   ribbonIsolationStrategy: thread
 ribbon:
-  ReadTimeout: 3000
-  ConnectTimeout: 0
+  ReadTimeout: 10000
+  ConnectTimeout: 1000
   MaxAutoRetries: 1 #同一台实例最大重试次数,不包括首次调用
   MaxAutoRetriesNextServer: 0 #重试负载均衡其他的实例最大重试次数,不包括首次调用
   OkToRetryOnAllOperations: true  #是否所有操作都重试
@@ -71,7 +72,7 @@ hystrix:
           enabled: false
         isolation:
           thread:
-            timeoutInMilliseconds: 100000
+            timeoutInMilliseconds: 20000
 logging:
   level:
     org.springframework: debug

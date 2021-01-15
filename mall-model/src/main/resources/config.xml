@@ -15,7 +15,7 @@
         </commentGenerator>
         <!--jdbc的数据库连接 wg_insert 为数据库名字-->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://49.233.48.181:3306/mall?useUnicode=true&amp;characeterEncoding=utf-8&amp;serverTimezone=UTC" userId="root"
+                        connectionURL="jdbc:mysql://49.233.48.181:13306/mall?useUnicode=true&amp;characeterEncoding=utf-8&amp;serverTimezone=UTC" userId="root"
                         password="123456"></jdbcConnection>
         <!--非必须，类型处理器，在数据库类型和java类型之间的转换控制-->
         <javaTypeResolver>
@@ -31,11 +31,11 @@
             <!-- 是否允许子包 -->
             <property name="enableSubPackages" value="false"/>
             <!-- 是否对modal添加构造函数 -->
-            <property name="constructorBased" value="true"/>
+<!--            <property name="constructorBased" value="true"/>-->
             <!-- 是否清理从数据库中查询出的字符串左右两边的空白字符 -->
             <property name="trimStrings" value="true"/>
             <!-- 建立modal对象是否不可改变 即生成的modal对象不会有setter方法，只有构造方法 -->
-            <property name="immutable" value="false"/>
+<!--            <property name="immutable" value="false"/>-->
         </javaModelGenerator>
         <!-- targetPackage 和 targetProject：生成的 mapper 文件的包和位置 -->
         <sqlMapGenerator targetPackage="mapper"
@@ -50,23 +50,23 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- tableName是数据库中的表名，domainObjectName是生成的JAVA模型名，后面的参数不用改，要生成更多的表就在下面继续加table标签 -->
-        <table tableName="sys_user" domainObjectName="SysUser"
+        <table tableName="tb_resource" domainObjectName="Resource"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false" />
-        <table tableName="tb_goods" domainObjectName="Goods"
+        <table tableName="tb_role" domainObjectName="Role"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false" />
-        <table tableName="tb_order" domainObjectName="Order"
+        <table tableName="tb_role_res_ref" domainObjectName="RoleResRef"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false" />
-        <table tableName="tb_order_goods" domainObjectName="OrderGoods"
+        <table tableName="tb_tenant" domainObjectName="Tenant"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false" />
-        <table tableName="tb_user_address" domainObjectName="UserAddress"
+        <table tableName="tb_user_role_ref" domainObjectName="UserRoleRef"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false" />

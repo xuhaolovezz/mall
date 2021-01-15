@@ -1,8 +1,13 @@
-package com.mall.zuul.oauth2.controller;
+package com.mall.auth.controller;
 
+import com.mall.common.vo.Oauth2User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -13,13 +18,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 
 @RestController
-public class Oauth2Controller {
+public class OauthLoginController {
 
     @Autowired
     private AuthorizationCodeResourceDetails details;
 
-    @RequestMapping("/oauth_login")
-    public DefaultOAuth2AccessToken oauthLogin(String code, HttpServletResponse response) {
+    @Autowired
+    @Lazy
+    private DefaultTokenServices tokenServices;
+
+    @RequestMapping("/open/oauth_login")
+    public Oauth2User oauthLogin(String code, HttpServletResponse response) {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -35,19 +44,20 @@ public class Oauth2Controller {
                 uri,
                 null,
                 DefaultOAuth2AccessToken.class);
-        //SecurityContextHolder.getContext().setAuthentication();
+
+        OAuth2Authentication authentication = tokenServices.loadAuthentication(defaultOAuth2AccessToken.getValue());
 
         Cookie cookie = new Cookie("token",defaultOAuth2AccessToken.getValue());
-        //cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
 
-        return defaultOAuth2AccessToken;
+        return (Oauth2User) authentication.getPrincipal();
     }
 
-    @RequestMapping("/test")
-    public String test() {
-        return "test";
+    @RequestMapping("/user/me")
+    public Oauth2User currentUser() {
+        OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder
+                .getContext().getAuthentication();
+        return (Oauth2User) authentication.getPrincipal();
     }
-
 }

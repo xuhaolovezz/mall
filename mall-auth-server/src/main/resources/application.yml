@@ -10,7 +10,7 @@ spring:
     name: mall-auth-server
   datasource:
     druid:
-      url: jdbc:mysql://49.233.48.181:3306/mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+      url: jdbc:mysql://49.233.48.181:13306/mall?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: root
       password: 123456
@@ -30,6 +30,6 @@ management:
       exposure:
         include: '*'
 server:
-  port: 8111
+  port: 9000
 mybatis:
   mapper-locations: classpath:mapper/*.xml

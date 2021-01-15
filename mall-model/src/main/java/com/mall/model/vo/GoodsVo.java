@@ -1,12 +1,21 @@
 package com.mall.model.vo;
 
+import com.mall.model.dto.Brand;
+import com.mall.model.dto.Goods;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class GoodsVo {
+public class GoodsVo extends Goods {
 
-    private Integer goodsId;     // 商品ID
+    private List<String> descImgList;
 
-    private Integer buyNum;     // 购买数量
+    private List<String> simpleImgList;
 
+    private Brand brand;
+
+    private CatVo cat;
 }
